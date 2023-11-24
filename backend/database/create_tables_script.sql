@@ -20,5 +20,6 @@ CREATE TABLE IF NOT exists recipe (
 CREATE TABLE IF NOT exists recipe_ingredient (
     recipe_id INTEGER REFERENCES recipe(id),
     ingredient_id INTEGER REFERENCES ingredient(id),
+    ingredient_quantity INTEGER not null,
     PRIMARY KEY (recipe_id, ingredient_id)
 );
