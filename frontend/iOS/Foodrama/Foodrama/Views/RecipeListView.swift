@@ -37,7 +37,7 @@ struct RecipeListView: View {
     }
     
     func addNewRecipe(){
-        print("will push another view to the nav stack")
+        //push the add new recipe to the stack
     }
 }
 

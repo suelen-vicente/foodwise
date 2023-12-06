@@ -20,6 +20,9 @@
 		25BAE5D52B1E3246002AB6DC /* MenuCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BAE5D42B1E3246002AB6DC /* MenuCalendarView.swift */; };
 		25BAE5D72B1E3266002AB6DC /* MyFridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BAE5D62B1E3266002AB6DC /* MyFridgeView.swift */; };
 		25BAE5D92B1E329A002AB6DC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BAE5D82B1E329A002AB6DC /* SettingsView.swift */; };
+		25BAE5DB2B1E52E1002AB6DC /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BAE5DA2B1E52E1002AB6DC /* RecipeView.swift */; };
+		25BAE5DD2B1E856B002AB6DC /* ColapsableTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BAE5DC2B1E856B002AB6DC /* ColapsableTitle.swift */; };
+		25BAE5DF2B20EE4C002AB6DC /* FilledRectangularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BAE5DE2B20EE4C002AB6DC /* FilledRectangularButton.swift */; };
 		25CA86D12B1115280067131A /* FoodramaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CA86D02B1115280067131A /* FoodramaApp.swift */; };
 		25CA86D32B1115280067131A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CA86D22B1115280067131A /* ContentView.swift */; };
 		25CA86D52B1115290067131A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25CA86D42B1115290067131A /* Assets.xcassets */; };
@@ -60,6 +63,9 @@
 		25BAE5D42B1E3246002AB6DC /* MenuCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCalendarView.swift; sourceTree = "<group>"; };
 		25BAE5D62B1E3266002AB6DC /* MyFridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFridgeView.swift; sourceTree = "<group>"; };
 		25BAE5D82B1E329A002AB6DC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		25BAE5DA2B1E52E1002AB6DC /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
+		25BAE5DC2B1E856B002AB6DC /* ColapsableTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColapsableTitle.swift; sourceTree = "<group>"; };
+		25BAE5DE2B20EE4C002AB6DC /* FilledRectangularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledRectangularButton.swift; sourceTree = "<group>"; };
 		25CA86CD2B1115280067131A /* Foodrama.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodrama.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25CA86D02B1115280067131A /* FoodramaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodramaApp.swift; sourceTree = "<group>"; };
 		25CA86D22B1115280067131A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 				25BAE5D42B1E3246002AB6DC /* MenuCalendarView.swift */,
 				25BAE5D62B1E3266002AB6DC /* MyFridgeView.swift */,
 				25BAE5D82B1E329A002AB6DC /* SettingsView.swift */,
+				25BAE5DA2B1E52E1002AB6DC /* RecipeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -160,6 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				25BAE5CA2B1A81D2002AB6DC /* FloatButton.swift */,
+				25BAE5DC2B1E856B002AB6DC /* ColapsableTitle.swift */,
+				25BAE5DE2B20EE4C002AB6DC /* FilledRectangularButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -362,8 +371,11 @@
 				25BAE5D12B1A89EC002AB6DC /* MainView.swift in Sources */,
 				25CA86D32B1115280067131A /* ContentView.swift in Sources */,
 				25BAE5D92B1E329A002AB6DC /* SettingsView.swift in Sources */,
+				25BAE5DD2B1E856B002AB6DC /* ColapsableTitle.swift in Sources */,
 				25BAE5C42B167C53002AB6DC /* Ingredient.swift in Sources */,
+				25BAE5DB2B1E52E1002AB6DC /* RecipeView.swift in Sources */,
 				25CA86D12B1115280067131A /* FoodramaApp.swift in Sources */,
+				25BAE5DF2B20EE4C002AB6DC /* FilledRectangularButton.swift in Sources */,
 				25BAE5B62B112DC6002AB6DC /* Constants.swift in Sources */,
 				25BAE5CB2B1A81D2002AB6DC /* FloatButton.swift in Sources */,
 				25BAE5BA2B113155002AB6DC /* Recipe.swift in Sources */,

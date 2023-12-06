@@ -26,10 +26,20 @@ struct Recipe: Identifiable, Hashable {
     }
 }
 
-struct IngredientWithQuantity {
+struct IngredientWithQuantity: Identifiable, Hashable {
+    let id: Int
     var ingredient: Ingredient
     var quantity: Double
     var quantityUnit: QuantityUnit
+    
+    public func hash(into hasher: inout Hasher) {
+        return hasher.combine(ingredient.id)
+    }
+    
+    static func == (lhs: IngredientWithQuantity, rhs: IngredientWithQuantity) -> Bool {
+        return lhs.ingredient.id == rhs.ingredient.id &&
+               lhs.ingredient.name == rhs.ingredient.name
+    }
 }
 
 struct RecipeList {
@@ -65,13 +75,13 @@ struct RecipeList {
             price: 10.0,
             steps: "1. Refogar o alho e a cebola no azeite \n 2. Adicionar a carne e ir amassando \n 3. Quando a carne stiver bem frita, adicione o molho, os vegetais, o sal e o manjericao \n 4. Ferver ate ficar bom :)",
             portionQuantity: 6,
-            listOfIngredients: [IngredientWithQuantity(ingredient: dicedTomatoCan, quantity: 1592, quantityUnit: .ml),
-                                IngredientWithQuantity(ingredient: frozenVeggies, quantity: 250, quantityUnit: .g),
-                                IngredientWithQuantity(ingredient: groundBeef, quantity: 500, quantityUnit: .g),
-                                IngredientWithQuantity(ingredient: basil, quantity: 3, quantityUnit: .g),
-                                IngredientWithQuantity(ingredient: onion, quantity: 100, quantityUnit: .g),
-                                IngredientWithQuantity(ingredient: garlicMinced, quantity: 1, quantityUnit: .tableSpoon),
-                                IngredientWithQuantity(ingredient: oliveOil, quantity: 1, quantityUnit: .tableSpoon)])
+            listOfIngredients: [IngredientWithQuantity(id:1, ingredient: dicedTomatoCan, quantity: 1592, quantityUnit: .ml),
+                                IngredientWithQuantity(id:2, ingredient: frozenVeggies, quantity: 250, quantityUnit: .g),
+                                IngredientWithQuantity(id:3, ingredient: groundBeef, quantity: 500, quantityUnit: .g),
+                                IngredientWithQuantity(id:4, ingredient: basil, quantity: 3, quantityUnit: .g),
+                                IngredientWithQuantity(id:5, ingredient: onion, quantity: 100, quantityUnit: .g),
+                                IngredientWithQuantity(id:6, ingredient: garlicMinced, quantity: 1, quantityUnit: .tableSpoon),
+                                IngredientWithQuantity(id:7, ingredient: oliveOil, quantity: 1, quantityUnit: .tableSpoon)])
         
         let chickenStrogonoff = Recipe(
             id: 2,
@@ -80,14 +90,14 @@ struct RecipeList {
             steps: "1. Refogar o alho e a cebola no azeite \n 2. Adicionar o frango picado e refogar ate ficar dourado \n 3. Remover o frango \n 4. Adicionar a manteiga e a farinha \n 5. Adicionar o leite e mexer ate engrossar \n 6. Adicionar o frango e o cogumelo \n 7. Adicionar o resto dos molhos",
             portionQuantity: 4,
             listOfIngredients: [
-                IngredientWithQuantity(ingredient: butter, quantity: 50, quantityUnit: .g),
-                IngredientWithQuantity(ingredient: onion, quantity: 100, quantityUnit: .g),
-                IngredientWithQuantity(ingredient: chickenBreast, quantity: 1000, quantityUnit: .g),
-                IngredientWithQuantity(ingredient: milk, quantity: 500, quantityUnit: .ml),
-                IngredientWithQuantity(ingredient: ketchup, quantity: 250, quantityUnit: .g),
-                IngredientWithQuantity(ingredient: mustard, quantity: 150, quantityUnit: .g),
-                IngredientWithQuantity(ingredient: shoyu, quantity: 100, quantityUnit: .ml),
-                IngredientWithQuantity(ingredient: flour, quantity: 2, quantityUnit: .tableSpoon)])
+                IngredientWithQuantity(id:8, ingredient: butter, quantity: 50, quantityUnit: .g),
+                IngredientWithQuantity(id:9, ingredient: onion, quantity: 100, quantityUnit: .g),
+                IngredientWithQuantity(id:10, ingredient: chickenBreast, quantity: 1000, quantityUnit: .g),
+                IngredientWithQuantity(id:11, ingredient: milk, quantity: 500, quantityUnit: .ml),
+                IngredientWithQuantity(id:12, ingredient: ketchup, quantity: 250, quantityUnit: .g),
+                IngredientWithQuantity(id:13, ingredient: mustard, quantity: 150, quantityUnit: .g),
+                IngredientWithQuantity(id:14, ingredient: shoyu, quantity: 100, quantityUnit: .ml),
+                IngredientWithQuantity(id:15, ingredient: flour, quantity: 2, quantityUnit: .tableSpoon)])
         
         let wholeWheatBread = Recipe(
             id: 3,
@@ -96,12 +106,12 @@ struct RecipeList {
             steps: "1. Heat the milk and the butter 1 min in the microwave \n 2. Add the maple to the pan \n 3. Add te warm milk an butter \n 4. Add the flours and the yeast \n 5. Put on the breadmaker using 1.5lb config, light crust and on cicle 1",
             portionQuantity: 15,
             listOfIngredients: [
-                IngredientWithQuantity(ingredient: maple, quantity: 4, quantityUnit: .tableSpoon),
-                IngredientWithQuantity(ingredient: milk, quantity: 1, quantityUnit: .cup),
-                IngredientWithQuantity(ingredient: butter, quantity: 4, quantityUnit: .tableSpoon),
-                IngredientWithQuantity(ingredient: flour, quantity: 1, quantityUnit: .cup),
-                IngredientWithQuantity(ingredient: wholeWheatFlour, quantity: 2, quantityUnit: .cup),
-                IngredientWithQuantity(ingredient: instantYeast, quantity: 1, quantityUnit: .teaSpoon)])
+                IngredientWithQuantity(id:16, ingredient: maple, quantity: 4, quantityUnit: .tableSpoon),
+                IngredientWithQuantity(id:17, ingredient: milk, quantity: 1, quantityUnit: .cup),
+                IngredientWithQuantity(id:18, ingredient: butter, quantity: 4, quantityUnit: .tableSpoon),
+                IngredientWithQuantity(id:19, ingredient: flour, quantity: 1, quantityUnit: .cup),
+                IngredientWithQuantity(id:20, ingredient: wholeWheatFlour, quantity: 2, quantityUnit: .cup),
+                IngredientWithQuantity(id:21, ingredient: instantYeast, quantity: 1, quantityUnit: .teaSpoon)])
         
         recipeList.append(groundBeefWithTomatoSauce)
         recipeList.append(chickenStrogonoff)
