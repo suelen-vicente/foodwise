@@ -17,12 +17,24 @@ struct RecipeListView: View {
             ZStack(alignment: .bottomTrailing){
                 List{
                     ForEach(searchResults, id: \.self) { recipe in
-                        RecipeCellView(recipe: recipe)
+                        NavigationLink{
+                            RecipeView(recipe: recipe)
+                        }label: {
+                            RecipeCellView(recipe: recipe)
+                        }
                     }
                 }
-                FloatAddButton(action: {
-                    addNewRecipe()
-                }).padding(30)
+                NavigationLink {
+                    EditRecipeView()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.title.weight(.semibold))
+                        .padding()
+                        .background(Color.orange)
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
+                        .padding(30)
+                }
             }.navigationTitle("Recipes")
              .navigationBarTitleDisplayMode(.inline)
         }.searchable(text: $searchText)
@@ -34,10 +46,6 @@ struct RecipeListView: View {
         } else {
             return recipes.filter { $0.name.contains(searchText) }
         }
-    }
-    
-    func addNewRecipe(){
-        //push the add new recipe to the stack
     }
 }
 

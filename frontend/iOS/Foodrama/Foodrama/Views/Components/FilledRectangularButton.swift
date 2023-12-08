@@ -11,6 +11,7 @@ struct FilledRectangularButton: View {
     @State var action: () -> () = { }
     @State var iconName: String = ""
     @State var text: String = ""
+    var color: Color = .orange
     
     var body: some View {
         Button{
@@ -26,7 +27,7 @@ struct FilledRectangularButton: View {
                     .font(.system(size: 14))
             }
             .padding()
-            .background(Color.orange)
+            .background(color)
             .cornerRadius(8)
                 
         }

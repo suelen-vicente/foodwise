@@ -28,7 +28,8 @@ struct Ingredient: Identifiable, Hashable {
     }
 }
 
-enum QuantityUnit: String {
+enum QuantityUnit: String, Identifiable, CaseIterable {
+    var id: String { self.rawValue }
     case ml = "ml"
     case g = "g"
     case l = "l"

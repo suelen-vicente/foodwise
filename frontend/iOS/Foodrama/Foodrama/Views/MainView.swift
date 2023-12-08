@@ -12,7 +12,7 @@ struct MainView: View {
         TabView {
             ShoppingListView()
                 .tabItem {
-                    Label("Shopping List", systemImage: "list.bullet.rectangle.portrait")
+                    Label("Shopping List", systemImage: "cart")
                 }
             MenuCalendarView()
                 .tabItem {

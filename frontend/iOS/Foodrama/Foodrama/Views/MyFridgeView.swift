@@ -58,7 +58,7 @@ struct IngredientCellView: View {
                 .padding(.bottom, 5).padding(.vertical, 5)
             Spacer()
             if ingredient.availableQuantity > 0 {
-                Text("\(String(format: "%.1f", ingredient.availableQuantity)) \(ingredient.availableQuantityUnit.rawValue)") //Format double to have 2 decimals
+                Text("\(String.formattedQuantity(ingredient.availableQuantity)) \(ingredient.availableQuantityUnit.rawValue)")
                     .font(.system(size: 12))
                     .foregroundStyle(.gray)
             }

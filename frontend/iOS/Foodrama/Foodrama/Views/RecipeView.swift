@@ -29,6 +29,14 @@ struct RecipeView: View {
                             .clipShape(Circle())
                             .padding()
                         VStack(alignment: .trailing){
+                            NavigationLink {
+                                EditRecipeView(recipe: recipe)
+                            } label: {
+                                Text("Edit")
+                                    .font(.body)
+                                    .foregroundStyle(.orange)
+                                    .multilineTextAlignment(.center)
+                            }
                             if hasIngredients {
                                 HStack{
                                     Image(systemName: "party.popper")
@@ -48,13 +56,15 @@ struct RecipeView: View {
                                 ).padding(.top, 20)
                             }
                             Spacer()
-                            Text("Price: \("$\(String(format: "%.2f", recipe.price))")")
+                            Text("Price: \("$\(String.formattedPrice(recipe.price))")")
                                 .font(.system(size: 14))
                                 .foregroundStyle(.black)
+                            Spacer()
                             Text("Portions: \(recipe.portionQuantity)")
                                 .font(.system(size: 14))
                                 .foregroundStyle(.black)
                                 .padding(.bottom, 20)
+                            Spacer()
                         }.padding()
                     }
                     Text(recipe.name)
@@ -77,12 +87,7 @@ struct RecipeView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 5)
                     if showIngredients {
-                        List{
-                            ForEach(recipe.listOfIngredients, id: \.self) { i in
-                                RecipeIngredientCellView(recipeIngredient: i)
-                            }
-                        }.listStyle(PlainListStyle())
-                         .frame(height: 200)
+                        RecipeIngredientsList(ingredients: recipe.listOfIngredients, mode: .readOnly)
                          .padding(.bottom, 20)
                     }
                     ColapsableTitle(show: $showPreparation, title: "Preparation")
@@ -104,22 +109,6 @@ struct RecipeView: View {
     
     func addMissingIngredientsToShoppingList(){
         print("Call the API to add the missing ingredients to the shopping list")
-    }
-}
-
-struct RecipeIngredientCellView: View {
-    @State var recipeIngredient: IngredientWithQuantity
-    
-    var body: some View {
-        HStack{
-            Text(recipeIngredient.ingredient.name)
-                .font(.system(size: 14))
-                .foregroundStyle(.gray)
-            Spacer()
-            Text("\(String(format: "%.2f", recipeIngredient.quantity)) \(recipeIngredient.quantityUnit.rawValue)")
-                .font(.system(size: 14))
-                .foregroundStyle(.gray)
-        }
     }
 }
 
