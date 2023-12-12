@@ -17,9 +17,10 @@ struct RecipeView: View {
     // it has to check in the My Fridge table
     // if the ingredents and quantity required exists
     @State var hasIngredients: Bool = false
+    @State var addIngredients: Bool = false
     
     var body: some View {
-        NavigationView{
+        NavigationStack {
             ScrollView{
                 VStack(alignment: .leading){
                     HStack{
@@ -87,7 +88,7 @@ struct RecipeView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 5)
                     if showIngredients {
-                        RecipeIngredientsList(ingredients: recipe.listOfIngredients, mode: .readOnly)
+                        RecipeIngredientsList(ingredients: recipe.listOfIngredients, mode: .readOnly, addIngredient: $addIngredients)
                          .padding(.bottom, 20)
                     }
                     ColapsableTitle(show: $showPreparation, title: "Preparation")

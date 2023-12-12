@@ -19,9 +19,10 @@ struct EditRecipeView: View {
     @State var showDescription: Bool = true
     @State var showIngredients: Bool = true
     @State var showPreparation: Bool = true
+    @State var addIngredient: Bool = false
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             VStack{
                 ScrollView{
                     VStack(alignment: .leading, spacing: 8){
@@ -70,7 +71,10 @@ struct EditRecipeView: View {
                             .padding(.horizontal)
                             .padding(.bottom, 5)
                         if showIngredients {
-                            RecipeIngredientsList(ingredients: recipe?.listOfIngredients ?? [], mode: .edit)
+                            RecipeIngredientsList(
+                                ingredients: recipe?.listOfIngredients ?? [],
+                                mode: .edit,
+                                addIngredient: $addIngredient)
                                 .padding(.bottom, 20)
                         }
                         ColapsableTitle(show: $showPreparation, title: "Preparation")
@@ -86,6 +90,12 @@ struct EditRecipeView: View {
                             .padding(.horizontal)
                         }
                         Spacer()
+                        //This is deprecated. Need to find a way to do this using the newest version
+                        NavigationLink(
+                            destination: IngredientListView(addIngredientToRecipe: addIngredientToRecipe),
+                            isActive: $addIngredient,
+                            label: { EmptyView() }
+                        )
                     }
                 }
                 SaveOrCancelBar(cancel: {
@@ -94,7 +104,14 @@ struct EditRecipeView: View {
                     
                 })
             }
-        }
+        }.onAppear(perform: {
+            addIngredient = false
+        })
+    }
+    
+    func addIngredientToRecipe(ingredient: Ingredient){
+        let nextID = (ingredients.last?.id ?? 0) + 1
+        ingredients.append(IngredientWithQuantity(id: nextID, ingredient: ingredient, quantity: 0.0, quantityUnit: .g))
     }
     
     func validateName(name: String) -> Bool{

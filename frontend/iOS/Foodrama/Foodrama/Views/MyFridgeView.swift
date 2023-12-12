@@ -15,12 +15,12 @@ struct MyFridgeView: View {
     @State private var searchText = ""
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             //the alignment makes sure that the button is in the right position
             ZStack(alignment: .bottomTrailing){
                 List{
                     ForEach(searchResults, id: \.self) { ingredient in
-                        IngredientCellView(ingredient: ingredient)
+                        MyFridgeCellView(ingredient: ingredient)
                     }
                 }
                 FloatAddButton(action: {
@@ -44,23 +44,25 @@ struct MyFridgeView: View {
     }
 }
 
-struct IngredientCellView: View {
+struct MyFridgeCellView: View {
     @State var ingredient: Ingredient
     
     var body: some View {
-        HStack{
-            Image(systemName: "carrot")
-                 .resizable()
-                 .frame(width: 30, height: 30)
-//                 .clipShape(Circle())
-            Text(ingredient.name)
-                .font(.system(size: 14))
-                .padding(.bottom, 5).padding(.vertical, 5)
-            Spacer()
-            if ingredient.availableQuantity > 0 {
-                Text("\(String.formattedQuantity(ingredient.availableQuantity)) \(ingredient.availableQuantityUnit.rawValue)")
-                    .font(.system(size: 12))
-                    .foregroundStyle(.gray)
+        NavigationStack {
+            HStack{
+                Image(systemName: "carrot")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                //                 .clipShape(Circle())
+                Text(ingredient.name)
+                    .font(.system(size: 14))
+                    .padding(.bottom, 5).padding(.vertical, 5)
+                Spacer()
+                if ingredient.availableQuantity > 0 {
+                    Text("\(String.formattedQuantity(ingredient.availableQuantity)) \(ingredient.availableQuantityUnit.rawValue)")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.gray)
+                }
             }
         }
     }

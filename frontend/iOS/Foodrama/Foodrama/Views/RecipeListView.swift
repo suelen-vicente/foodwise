@@ -12,7 +12,7 @@ struct RecipeListView: View {
     @State private var searchText = ""
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             //the alignment makes sure that the button is in the right position
             ZStack(alignment: .bottomTrailing){
                 List{

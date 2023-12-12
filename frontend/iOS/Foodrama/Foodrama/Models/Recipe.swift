@@ -27,6 +27,8 @@ struct Recipe: Identifiable, Hashable {
 }
 
 struct IngredientWithQuantity: Identifiable, Hashable {
+    static var nextID = 1
+    
     let id: Int
     var ingredient: Ingredient
     var quantity: Double

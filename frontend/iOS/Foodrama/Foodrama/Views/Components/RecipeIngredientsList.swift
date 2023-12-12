@@ -10,7 +10,7 @@ import SwiftUI
 struct RecipeIngredientsList: View {
     @State var ingredients: [IngredientWithQuantity] = RecipeList().restore().first!.listOfIngredients
     var mode: RecipeIngredientListMode = .edit
-    var addIngredient: () -> Void = { }
+    @Binding var addIngredient: Bool
     
     private let readOnlyHeight: Int = 20
     private let editHeight: Int = 40
@@ -44,7 +44,7 @@ struct RecipeIngredientsList: View {
     
     var addButton: some View {
         Button(action: {
-            addIngredient()
+            addIngredient.toggle()
         }) {
             HStack() {
                 Spacer()
@@ -110,6 +110,3 @@ enum RecipeIngredientListMode {
     case edit
 }
 
-#Preview {
-    RecipeIngredientsList()
-}

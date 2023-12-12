@@ -1,6 +1,49 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "$%@" : {
+
+    },
+    "Add" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Essa é uma receita fácil para dias de semana preguiçosos com a vantagem de render para vários dias." : {
+
+    },
+    "Ingredients" : {
+
+    },
+    "Menu" : {
+
+    },
+    "Menu Calendar - Comming Soon!" : {
+
+    },
+    "My Fridge" : {
+
+    },
+    "Portions: %lld" : {
+
+    },
+    "Price: %@" : {
+
+    },
     "recipes" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -17,6 +60,27 @@
           }
         }
       }
+    },
+    "Recipes" : {
+
+    },
+    "Settgings" : {
+
+    },
+    "Settings View - Comming Soon!" : {
+
+    },
+    "Shopping List" : {
+
+    },
+    "Shopping List - Comming Soon" : {
+
+    },
+    "You didn't add any ingredients here yet. Let's do this!" : {
+
+    },
+    "You have all the ingredients in your fridge!" : {
+
     }
   },
   "version" : "1.0"
