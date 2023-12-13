@@ -8,16 +8,7 @@
 import SwiftUI
 
 struct RecipeView: View {
-    @State var recipe: Recipe = RecipeList().restore().first!
-    @State var showDescription: Bool = true
-    @State var showIngredients: Bool = true
-    @State var showPreparation: Bool = true
-    
-    //This will also be returned in an API
-    // it has to check in the My Fridge table
-    // if the ingredents and quantity required exists
-    @State var hasIngredients: Bool = false
-    @State var addIngredients: Bool = false
+    @ObservedObject var recipeVC: RecipeViewController = RecipeViewController()
     
     var body: some View {
         NavigationStack {
@@ -31,14 +22,14 @@ struct RecipeView: View {
                             .padding()
                         VStack(alignment: .trailing){
                             NavigationLink {
-                                EditRecipeView(recipe: recipe)
+                                EditRecipeView(recipe: recipeVC.recipe)
                             } label: {
                                 Text("Edit")
                                     .font(.body)
                                     .foregroundStyle(.orange)
                                     .multilineTextAlignment(.center)
                             }
-                            if hasIngredients {
+                            if recipeVC.hasIngredientsInMyFridge {
                                 HStack{
                                     Image(systemName: "party.popper")
                                         .resizable()
@@ -51,32 +42,32 @@ struct RecipeView: View {
                                 }.padding(.bottom, 20)
                             } else {
                                 FilledRectangularButton(
-                                    action: addMissingIngredientsToShoppingList,
+                                    action: recipeVC.addMissingIngredientsToShoppingList,
                                     iconName: "cart",
                                     text: "Shop Missing Ingredients"
                                 ).padding(.top, 20)
                             }
                             Spacer()
-                            Text("Price: \("$\(String.formattedPrice(recipe.price))")")
+                            Text("Price: \(recipeVC.formattedPrice)")
                                 .font(.system(size: 14))
                                 .foregroundStyle(.black)
                             Spacer()
-                            Text("Portions: \(recipe.portionQuantity)")
+                            Text("Portions: \(recipeVC.recipe.portionQuantity)")
                                 .font(.system(size: 14))
                                 .foregroundStyle(.black)
                                 .padding(.bottom, 20)
                             Spacer()
                         }.padding()
                     }
-                    Text(recipe.name)
+                    Text(recipeVC.recipe.name)
                         .font(.system(size: 24))
                         .foregroundStyle(.orange)
                         .multilineTextAlignment(.center)
                         .padding()
-                    ColapsableTitle(show: $showDescription, title: "Description")
+                    ColapsableTitle(show: $recipeVC.showDescription, title: "Description")
                         .padding(.horizontal)
                         .padding(.bottom, 5)
-                    if showDescription {
+                    if recipeVC.showDescription {
                         Text("Essa é uma receita fácil para dias de semana preguiçosos com a vantagem de render para vários dias.")
                             .font(.system(size: 14))
                             .foregroundStyle(.gray)
@@ -84,18 +75,18 @@ struct RecipeView: View {
                             .padding(.horizontal)
                             .padding(.bottom, 20)
                     }
-                    ColapsableTitle(show: $showIngredients, title: "Ingredients")
+                    ColapsableTitle(show: $recipeVC.showIngredients, title: "Ingredients")
                         .padding(.horizontal)
                         .padding(.bottom, 5)
-                    if showIngredients {
-                        RecipeIngredientsList(ingredients: recipe.listOfIngredients, mode: .readOnly, addIngredient: $addIngredients)
+                    if recipeVC.showIngredients {
+                        RecipeIngredientsList(ingredients: recipeVC.recipe.listOfIngredients, mode: .readOnly, addIngredient: $recipeVC.addIngredients)
                          .padding(.bottom, 20)
                     }
-                    ColapsableTitle(show: $showPreparation, title: "Preparation")
+                    ColapsableTitle(show: $recipeVC.showPreparation, title: "Preparation")
                         .padding(.horizontal)
                         .padding(.bottom, 5)
-                    if showPreparation {
-                        Text(recipe.steps)
+                    if recipeVC.showPreparation {
+                        Text(recipeVC.recipe.steps)
                             .font(.system(size: 14))
                             .foregroundStyle(.gray)
                             .multilineTextAlignment(.leading)
@@ -106,10 +97,6 @@ struct RecipeView: View {
                 }
             }
         }
-    }
-    
-    func addMissingIngredientsToShoppingList(){
-        print("Call the API to add the missing ingredients to the shopping list")
     }
 }
 

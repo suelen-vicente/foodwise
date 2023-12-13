@@ -18,7 +18,7 @@ struct RecipeListView: View {
                 List{
                     ForEach(searchResults, id: \.self) { recipe in
                         NavigationLink{
-                            RecipeView(recipe: recipe)
+                            RecipeView(recipeVC: RecipeViewController(recipe: recipe))
                         }label: {
                             RecipeCellView(recipe: recipe)
                         }

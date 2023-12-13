@@ -36,6 +36,7 @@
 		25D8B5122B222905007EDDDD /* RecipeIngredientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D8B5112B222905007EDDDD /* RecipeIngredientsList.swift */; };
 		25D8B5142B239B98007EDDDD /* SaveOrCancelBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D8B5132B239B98007EDDDD /* SaveOrCancelBar.swift */; };
 		25D8B5162B2797C0007EDDDD /* IngredientListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D8B5152B2797C0007EDDDD /* IngredientListView.swift */; };
+		25D8B5182B28C29A007EDDDD /* RecipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D8B5172B28C29A007EDDDD /* RecipeController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		25D8B5112B222905007EDDDD /* RecipeIngredientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeIngredientsList.swift; sourceTree = "<group>"; };
 		25D8B5132B239B98007EDDDD /* SaveOrCancelBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveOrCancelBar.swift; sourceTree = "<group>"; };
 		25D8B5152B2797C0007EDDDD /* IngredientListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientListView.swift; sourceTree = "<group>"; };
+		25D8B5172B28C29A007EDDDD /* RecipeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				25BAE5C52B168A49002AB6DC /* UnitConversion.swift */,
+				25D8B5172B28C29A007EDDDD /* RecipeController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				25BAE5D72B1E3266002AB6DC /* MyFridgeView.swift in Sources */,
 				25BAE5CF2B1A82B4002AB6DC /* Colors.swift in Sources */,
 				25BAE5B32B112D6E002AB6DC /* RecipeListView.swift in Sources */,
+				25D8B5182B28C29A007EDDDD /* RecipeController.swift in Sources */,
 				25BAE5D12B1A89EC002AB6DC /* MainView.swift in Sources */,
 				25CA86D32B1115280067131A /* ContentView.swift in Sources */,
 				25BAE5D92B1E329A002AB6DC /* SettingsView.swift in Sources */,
