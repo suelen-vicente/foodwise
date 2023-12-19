@@ -1,6 +1,7 @@
 package com.foodrama.foodrama.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class IngredientService {
 		return ingredientRepository.findAll()
 				.stream()
 				.sorted()
-				.map(ingredient -> new IngredientDto(ingredient))
-				.toList();
+				.map(IngredientDto::new)
+				.collect(Collectors.toList());
 	}
 	
 	/**
@@ -36,7 +37,7 @@ public class IngredientService {
 	 */
 	public IngredientDto getIngredientsById(Long id) {
 		return ingredientRepository.findById(id)
-				.map(ingredient -> new IngredientDto(ingredient))
+				.map(IngredientDto::new)
 				.orElse(null);
 	}
 	
@@ -47,8 +48,7 @@ public class IngredientService {
      * @return the saved ingredient as a DTO
      */
     public IngredientDto saveIngredient(IngredientDto ingredientDto) {
-        Ingredient savedIngredient = ingredientRepository.save(ingredientDto.toEntity());
-        return new IngredientDto(savedIngredient);
+        return new IngredientDto(ingredientRepository.save(ingredientDto.toEntity()));
     }
     
     /**
@@ -62,8 +62,7 @@ public class IngredientService {
     	Ingredient ingredient = ingredientDto.toEntity();
     	ingredient.setId(id);
     	
-        Ingredient savedIngredient = ingredientRepository.save(ingredient);
-        return new IngredientDto(savedIngredient);
+        return new IngredientDto(ingredientRepository.save(ingredient));
     }
 
     /**

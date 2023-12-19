@@ -1,14 +1,15 @@
 package com.foodrama.foodrama.service;
 
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.foodrama.foodrama.model.Recipe;
-import com.foodrama.foodrama.model.dto.RecipeDto;
 import com.foodrama.foodrama.model.dto.IngredientDto;
+import com.foodrama.foodrama.model.dto.RecipeDto;
+import com.foodrama.foodrama.repository.IngredientRepository;
 import com.foodrama.foodrama.repository.RecipeRepository;
 
 @Service
@@ -16,6 +17,9 @@ public class RecipeService {
 	
 	@Autowired
 	private RecipeRepository recipeRepository;
+	
+	@Autowired
+	private IngredientRepository ingredientRepository;
 	
 	/**
 	 * Returns a list of all available recipes in the database ordered alphabetically.
@@ -27,7 +31,7 @@ public class RecipeService {
 				.stream()
 				.sorted()
 				.map(RecipeDto::new)
-				.toList();
+				.collect(Collectors.toList());
 	}
 	
 	/**
@@ -61,12 +65,19 @@ public class RecipeService {
      * @return the saved recipe as a DTO
      */
     public RecipeDto editRecipe(Long id, RecipeDto recipeDto) {
+    	List<Long> ingredientIds = recipeDto.ingredients()
+    			.stream()
+                .map(IngredientDto::id)
+                .collect(Collectors.toList());
+    	
+    	if (!ingredientRepository.existsAllByIdIn(ingredientIds)) { 
+			throw new IllegalArgumentException("Ingredient not found");
+		}
+    	
     	Recipe recipe = recipeDto.toEntity();
     	recipe.setId(id);
-    	recipe.setPrice(calculateRecipePrice(recipeDto.ingredients()));
     	
-    	Recipe savedRecipe = recipeRepository.save(recipeDto.toEntity());
-        return new RecipeDto(savedRecipe);
+    	return new RecipeDto(recipeRepository.save(recipeDto.toEntity()));
     }
 
     /**
@@ -76,11 +87,5 @@ public class RecipeService {
      */
     public void deleteRecipeById(Long id) {
     	recipeRepository.deleteById(id);
-    }
-    
-    private Double calculateRecipePrice(Set<IngredientDto> ingredients) {
-        return ingredients.stream()
-        		.mapToDouble(IngredientDto::price)
-                .sum();
     }
 }

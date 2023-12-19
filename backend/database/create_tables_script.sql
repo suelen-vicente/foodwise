@@ -11,7 +11,8 @@ CREATE TABLE IF NOT exists ingredient (
     price DECIMAL(10, 2) NOT NULL,
     package_quantity DECIMAL(10, 2) NOT NULL,
     quantity_unit VARCHAR(50) NOT NULL,
-    photo BYTEA -- BLOB data type for storing binary data
+    photo BYTEA, -- BLOB data type for storing binary data
+    bar_code VARCHAR(255)
 );
 -- Create the recipe table
 --

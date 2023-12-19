@@ -24,6 +24,8 @@ public class Ingredient implements Comparable<Ingredient>{
 	
 	private String quantityUnit;
 	
+	private String barCode;
+	
 	@ManyToMany
     Set<Recipe> recipes;
 	
@@ -70,6 +72,14 @@ public class Ingredient implements Comparable<Ingredient>{
 
 	public void setQuantityUnit(String quantityUnit) {
 		this.quantityUnit = quantityUnit;
+	}
+
+	public String getBarCode() {
+		return barCode;
+	}
+
+	public void setBarCode(String barCode) {
+		this.barCode = barCode;
 	}
 
 }

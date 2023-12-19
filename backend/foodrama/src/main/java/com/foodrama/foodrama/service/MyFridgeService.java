@@ -1,12 +1,11 @@
 package com.foodrama.foodrama.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.foodrama.foodrama.model.Ingredient;
-import com.foodrama.foodrama.model.MyFridge;
-import com.foodrama.foodrama.model.QuantityUnit;
-import com.foodrama.foodrama.model.dto.IngredientDto;
 import com.foodrama.foodrama.model.dto.MyFridgeDto;
 import com.foodrama.foodrama.repository.IngredientRepository;
 import com.foodrama.foodrama.repository.MyFridgeRepository;
@@ -21,62 +20,49 @@ public class MyFridgeService {
 	private IngredientRepository ingredientRepository;
 	
 	/**
-	 * Returns the ingredient with passed id.
+	 * Returns the list of ingredients that a user has in their fridge
 	 *
-	 * @param id id of the ingredient
-	 * @return the ingredient with the matching id requested
+	 * @param id of the user
+	 * @return the list of ingredients in the fridge
 	 */
-	public MyFridgeDto getFridgeById(Long userId) {
-		
-		MyFridge fridge = myFridgeRepository.findById(userId).orElse(null);
-		Ingredient fridgeIngredient = fridge.getIngredient();
-		
-		IngredientDto ingredient = 
-				new IngredientDto(
-						fridgeIngredient.getId(), 
-						fridgeIngredient.getName(), 
-						fridgeIngredient.getPrice(), 
-						fridgeIngredient.getPackageQuantity(), 
-						QuantityUnit.fromLabel(fridgeIngredient.getQuantityUnit()));
-		
-		return new MyFridgeDto(
-				fridge.getUserId(), 
-				ingredient, 
-				fridge.getAvailableQuantity(), 
-				QuantityUnit.fromLabel(fridge.getQuantityUnit()));
+	public List<MyFridgeDto> getFridgeByUserId(Long userId) {
+		return myFridgeRepository
+				.findByUserId(userId)
+				.stream()
+				.map(MyFridgeDto::new)
+				.collect(Collectors.toList());
 	}
 	
 	/**
-     * Save a new ingredient to the database.
+     * Save a new fridge ingredient to the database.
      *
      * @param ingredientDto the DTO containing information about the ingredient
      * @return the saved ingredient as a DTO
      */
-    public MyFridgeDto addIngredient(MyFridgeDto fridgeIngredient) {
-    	Ingredient ingredient = ingredientRepository.findById(fridgeIngredient.ingredient().id()).orElse(null);
+    public MyFridgeDto addIngredientToFridge(MyFridgeDto fridgeIngredient) {
+    	//Checks if ingredient exists
+    	if(ingredientRepository.existsById(fridgeIngredient.ingredient().id())) {
+    		throw new IllegalArgumentException("Ingredient not found");
+    	}
     	
-    	MyFridge myFridgeIngredient = new MyFridge();
-    	myFridgeIngredient.setUserId(fridgeIngredient.userId());
-    	myFridgeIngredient.setIngredient(ingredient);
-    	myFridgeIngredient.setAvailableQuantity(fridgeIngredient.availableQuantity());
-    	myFridgeIngredient.setQuantityUnit(fridgeIngredient.quantityUnit().getLabel());
-
-        MyFridge savedFridgeIngredient = myFridgeRepository.save(myFridgeIngredient);
-
-        return new MyFridgeDto(
-        		savedFridgeIngredient.getUserId(),
-        		fridgeIngredient.ingredient(),
-        		savedFridgeIngredient.getAvailableQuantity(),
-                QuantityUnit.fromLabel(savedFridgeIngredient.getQuantityUnit())
-        );
+    	return new MyFridgeDto(myFridgeRepository.save(fridgeIngredient.toEntity()));
     }
 
     /**
-     * Delete the ingredient with the specified ID from the database.
+     * Delete the ingredient with the specified ID from the fridge.
      *
      * @param id the ID of the ingredient to delete
      */
-    public void deleteIngredientById(Long id) {
-        ingredientRepository.deleteById(id);
+    public void deleteFridgeIngredientById(Long ingredientId) {
+    	myFridgeRepository.deleteByIngredientId(ingredientId);
+    }
+    
+    /**
+     * Delete the entire fridge of a user.
+     *
+     * @param id the ID of the user to delete
+     */
+    public void deleteAllFridge(Long userId) {
+    	myFridgeRepository.deleteByUserId(userId);
     }
 }
