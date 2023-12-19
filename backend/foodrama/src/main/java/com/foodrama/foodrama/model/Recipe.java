@@ -5,15 +5,18 @@ import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Recipe {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_seq")
+	@SequenceGenerator(name = "recipe_seq", sequenceName = "recipe_seq", allocationSize = 1)
 	private Long id;
 	
 	private String name;
@@ -70,6 +73,14 @@ public class Recipe {
 
 	public void setPortion(Long portion) {
 		this.portion = portion;
+	}
+	
+	public Set<Ingredient> getIngredients(){
+		return ingredients;
+	}
+	
+	public void setIngredients(Set<Ingredient> ingredients){
+		this.ingredients = ingredients;
 	}
 	
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.foodrama.foodrama.model.Ingredient;
-import com.foodrama.foodrama.model.QuantityUnit;
 import com.foodrama.foodrama.model.dto.IngredientDto;
 import com.foodrama.foodrama.repository.IngredientRepository;
 
@@ -25,7 +24,7 @@ public class IngredientService {
 		return ingredientRepository.findAll()
 				.stream()
 				.sorted()
-				.map(i -> new IngredientDto(i.getId(), i.getName(), i.getPrice(), i.getPackageQuantity(), QuantityUnit.fromLabel(i.getQuantityUnit())))
+				.map(ingredient -> new IngredientDto(ingredient))
 				.toList();
 	}
 	
@@ -37,7 +36,7 @@ public class IngredientService {
 	 */
 	public IngredientDto getIngredientsById(Long id) {
 		return ingredientRepository.findById(id)
-				.map(i -> new IngredientDto(i.getId(), i.getName(), i.getPrice(), i.getPackageQuantity(), QuantityUnit.fromLabel(i.getQuantityUnit())))
+				.map(ingredient -> new IngredientDto(ingredient))
 				.orElse(null);
 	}
 	
@@ -48,21 +47,23 @@ public class IngredientService {
      * @return the saved ingredient as a DTO
      */
     public IngredientDto saveIngredient(IngredientDto ingredientDto) {
-        Ingredient ingredient = new Ingredient();
-        ingredient.setName(ingredientDto.name());
-        ingredient.setPrice(ingredientDto.price());
-        ingredient.setPackageQuantity(ingredientDto.packageQuantity());
-        ingredient.setQuantityUnit(ingredientDto.quantityUnit().getLabel());
-
+        Ingredient savedIngredient = ingredientRepository.save(ingredientDto.toEntity());
+        return new IngredientDto(savedIngredient);
+    }
+    
+    /**
+     * Edit a ingredient in the database.
+     *
+     * @param id id of the ingredient
+     * @param ingredientDto the DTO containing information about the ingredient
+     * @return the saved ingredient as a DTO
+     */
+    public IngredientDto editIngredient(Long id, IngredientDto ingredientDto) {
+    	Ingredient ingredient = ingredientDto.toEntity();
+    	ingredient.setId(id);
+    	
         Ingredient savedIngredient = ingredientRepository.save(ingredient);
-
-        return new IngredientDto(
-                savedIngredient.getId(),
-                savedIngredient.getName(),
-                savedIngredient.getPrice(),
-                savedIngredient.getPackageQuantity(),
-                QuantityUnit.fromLabel(savedIngredient.getQuantityUnit())
-        );
+        return new IngredientDto(savedIngredient);
     }
 
     /**
@@ -71,6 +72,7 @@ public class IngredientService {
      * @param id the ID of the ingredient to delete
      */
     public void deleteIngredientById(Long id) {
+    	//This one is throwing a 500 internal error, because it can't find the relationship table
         ingredientRepository.deleteById(id);
     }
 }

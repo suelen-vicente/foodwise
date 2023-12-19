@@ -1,16 +1,15 @@
 package com.foodrama.foodrama.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class MyFridge {
-//	@OneToOne(optional = false)
-//	@JoinColumn(name = "user_id", nullable = false)
-//	private User user;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "ingredient_id", nullable = false)
 	private Ingredient ingredient;
 	
@@ -18,6 +17,7 @@ public class MyFridge {
 	
 	private String quantityUnit;
 	
+	@Id
 	private Long userId;
 
 	public Long getUserId() {

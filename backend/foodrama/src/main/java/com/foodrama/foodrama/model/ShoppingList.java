@@ -1,8 +1,9 @@
 package com.foodrama.foodrama.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class ShoppingList {
@@ -10,14 +11,15 @@ public class ShoppingList {
 //	@JoinColumn(name = "user_id", nullable = false)
 //	private User user;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "ingredient_id", nullable = false)
 	private Ingredient ingredient;
 	
-	private Double availableQuantity;
+	private Double quantity;
 	
 	private String quantityUnit;
 	
+	@Id
 	private Long userId;
 
 	public Long getUserId() {
@@ -36,12 +38,12 @@ public class ShoppingList {
 		this.ingredient = ingredient;
 	}
 
-	public Double getAvailableQuantity() {
-		return availableQuantity;
+	public Double getQuantity() {
+		return quantity;
 	}
 
-	public void setAvailableQuantity(Double availableQuantity) {
-		this.availableQuantity = availableQuantity;
+	public void setQuantity(Double quantity) {
+		this.quantity = quantity;
 	}
 
 	public String getQuantityUnit() {
