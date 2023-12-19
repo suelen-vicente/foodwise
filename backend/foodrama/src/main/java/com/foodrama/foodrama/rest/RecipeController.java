@@ -28,30 +28,30 @@ public class RecipeController {
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public List<RecipeDto> getAllRecipes() {
-		return recipeService.getAllRecipes();
+		return recipeService.getAll();
 	}
 	
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public RecipeDto getRecipeById(@PathVariable Long id) {
-		return recipeService.getRecipeById(id);
+		return recipeService.getById(id);
 	}
 	
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public RecipeDto addRecipe(@RequestBody RecipeDto Recipe) {
-		return recipeService.saveRecipe(Recipe);
+		return recipeService.save(Recipe);
 	}
 	
 	@PutMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public RecipeDto editRecipe(@PathVariable Long id, @RequestBody RecipeDto Recipe) {
-		return recipeService.editRecipe(id, Recipe);
+		return recipeService.edit(id, Recipe);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteRecipe(@PathVariable Long id) {
-		recipeService.deleteRecipeById(id);
+		recipeService.deleteById(id);
 	}
 }

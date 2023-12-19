@@ -47,13 +47,28 @@ public class ShoppingListService {
     	
     	return new ShoppingListDto(shoppingListRepository.save(ingredient.toEntity()));
     }
+    
+    /**
+     * Edit a fridge ingredient
+     *
+     * @param fridgeIngredient the DTO containing information about the ingredient
+     * @return the saved ingredient as a DTO
+     */
+    public ShoppingListDto editIngredient(Long userId, Long ingredientId, ShoppingListDto ingredient) {
+    	//Checks if ingredient exists
+    	if(!shoppingListRepository.findByUserIdAndIngredientId(userId, ingredientId).isPresent()) {
+    		throw new IllegalArgumentException("My Fridge Ingredient not found");
+    	}
+    	
+    	return new ShoppingListDto(shoppingListRepository.save(ingredient.toEntity()));
+    }
 
     /**
      * Delete the ingredient with the specified ID from the shopping list.
      *
      * @param id the ID of the ingredient to delete
      */
-    public void deleteByIngredientId(Long ingredientId) {
+    public void deleteIngredient(Long ingredientId) {
     	shoppingListRepository.deleteByIngredientId(ingredientId);
     }
     

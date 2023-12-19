@@ -29,30 +29,30 @@ public class IngredientController {
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public List<IngredientDto> getAllIngredients() {
-		return ingredientService.getAllIngredients();
+		return ingredientService.getAll();
 	}
 	
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public IngredientDto getIngredientById(@PathVariable Long id) {
-		return ingredientService.getIngredientsById(id);
+		return ingredientService.getById(id);
 	}
 	
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public IngredientDto addIngredient(@RequestBody IngredientDto ingredient) {
-		return ingredientService.saveIngredient(ingredient);
+		return ingredientService.save(ingredient);
 	}
 	
 	@PutMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public IngredientDto editIngredient(@PathVariable Long id, @RequestBody IngredientDto ingredient) {
-		return ingredientService.editIngredient(id, ingredient);
+		return ingredientService.edit(id, ingredient);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteIngredient(@PathVariable Long id) {
-		ingredientService.deleteIngredientById(id);
+		ingredientService.delete(id);
 	}
 }

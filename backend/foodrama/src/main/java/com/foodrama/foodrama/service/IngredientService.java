@@ -21,7 +21,7 @@ public class IngredientService {
 	 *
 	 * @return list of ingredients sorted by name ascending
 	 */
-	public List<IngredientDto> getAllIngredients() {
+	public List<IngredientDto> getAll() {
 		return ingredientRepository.findAll()
 				.stream()
 				.sorted()
@@ -35,7 +35,7 @@ public class IngredientService {
 	 * @param id id of the ingredient
 	 * @return the ingredient with the matching id requested
 	 */
-	public IngredientDto getIngredientsById(Long id) {
+	public IngredientDto getById(Long id) {
 		return ingredientRepository.findById(id)
 				.map(IngredientDto::new)
 				.orElse(null);
@@ -47,7 +47,7 @@ public class IngredientService {
      * @param ingredientDto the DTO containing information about the ingredient
      * @return the saved ingredient as a DTO
      */
-    public IngredientDto saveIngredient(IngredientDto ingredientDto) {
+    public IngredientDto save(IngredientDto ingredientDto) {
         return new IngredientDto(ingredientRepository.save(ingredientDto.toEntity()));
     }
     
@@ -58,7 +58,7 @@ public class IngredientService {
      * @param ingredientDto the DTO containing information about the ingredient
      * @return the saved ingredient as a DTO
      */
-    public IngredientDto editIngredient(Long id, IngredientDto ingredientDto) {
+    public IngredientDto edit(Long id, IngredientDto ingredientDto) {
     	Ingredient ingredient = ingredientDto.toEntity();
     	ingredient.setId(id);
     	
@@ -70,7 +70,7 @@ public class IngredientService {
      *
      * @param id the ID of the ingredient to delete
      */
-    public void deleteIngredientById(Long id) {
+    public void delete(Long id) {
     	//This one is throwing a 500 internal error, because it can't find the relationship table
         ingredientRepository.deleteById(id);
     }

@@ -26,7 +26,7 @@ public class RecipeService {
 	 *
 	 * @return list of recipes sorted by name ascending
 	 */
-	public List<RecipeDto> getAllRecipes() {
+	public List<RecipeDto> getAll() {
 		return recipeRepository.findAll()
 				.stream()
 				.sorted()
@@ -40,7 +40,7 @@ public class RecipeService {
 	 * @param id id of the ingredient
 	 * @return the ingredient with the matching id requested
 	 */
-	public RecipeDto getRecipeById(Long id) {
+	public RecipeDto getById(Long id) {
 		return recipeRepository.findById(id)
 				.map(RecipeDto::new)
 				.orElse(null);
@@ -52,7 +52,7 @@ public class RecipeService {
      * @param recipeDto the DTO containing information about the recipe and its ingredients
      * @return the saved ingredient as a DTO
      */
-    public RecipeDto saveRecipe(RecipeDto recipeDto) {
+    public RecipeDto save(RecipeDto recipeDto) {
     	Recipe savedRecipe = recipeRepository.save(recipeDto.toEntity());
         return new RecipeDto(savedRecipe);
     }
@@ -64,7 +64,7 @@ public class RecipeService {
      * @param recipeDto the DTO containing information about the recipe
      * @return the saved recipe as a DTO
      */
-    public RecipeDto editRecipe(Long id, RecipeDto recipeDto) {
+    public RecipeDto edit(Long id, RecipeDto recipeDto) {
     	List<Long> ingredientIds = recipeDto.ingredients()
     			.stream()
                 .map(IngredientDto::id)
@@ -85,7 +85,7 @@ public class RecipeService {
      *
      * @param id the ID of the ingredient to delete
      */
-    public void deleteRecipeById(Long id) {
+    public void deleteById(Long id) {
     	recipeRepository.deleteById(id);
     }
 }

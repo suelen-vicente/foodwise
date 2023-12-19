@@ -25,7 +25,7 @@ public class MyFridgeService {
 	 * @param id of the user
 	 * @return the list of ingredients in the fridge
 	 */
-	public List<MyFridgeDto> getFridgeByUserId(Long userId) {
+	public List<MyFridgeDto> getByUserId(Long userId) {
 		return myFridgeRepository
 				.findByUserId(userId)
 				.stream()
@@ -39,10 +39,25 @@ public class MyFridgeService {
      * @param ingredientDto the DTO containing information about the ingredient
      * @return the saved ingredient as a DTO
      */
-    public MyFridgeDto addIngredientToFridge(MyFridgeDto fridgeIngredient) {
+    public MyFridgeDto addIngredient(MyFridgeDto fridgeIngredient) {
     	//Checks if ingredient exists
     	if(ingredientRepository.existsById(fridgeIngredient.ingredient().id())) {
     		throw new IllegalArgumentException("Ingredient not found");
+    	}
+    	
+    	return new MyFridgeDto(myFridgeRepository.save(fridgeIngredient.toEntity()));
+    }
+    
+    /**
+     * Edit a fridge ingredient
+     *
+     * @param fridgeIngredient the DTO containing information about the ingredient
+     * @return the saved ingredient as a DTO
+     */
+    public MyFridgeDto editIngredient(Long userId, Long ingredientId, MyFridgeDto fridgeIngredient) {
+    	//Checks if ingredient exists
+    	if(!myFridgeRepository.findByUserIdAndIngredientId(userId, ingredientId).isPresent()) {
+    		throw new IllegalArgumentException("My Fridge Ingredient not found");
     	}
     	
     	return new MyFridgeDto(myFridgeRepository.save(fridgeIngredient.toEntity()));
@@ -53,7 +68,7 @@ public class MyFridgeService {
      *
      * @param id the ID of the ingredient to delete
      */
-    public void deleteFridgeIngredientById(Long ingredientId) {
+    public void deleteIngredient(Long ingredientId) {
     	myFridgeRepository.deleteByIngredientId(ingredientId);
     }
     
@@ -62,7 +77,7 @@ public class MyFridgeService {
      *
      * @param id the ID of the user to delete
      */
-    public void deleteAllFridge(Long userId) {
+    public void delete(Long userId) {
     	myFridgeRepository.deleteByUserId(userId);
     }
 }
