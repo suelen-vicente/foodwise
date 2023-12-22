@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.foodrama.foodrama.model.Ingredient;
 import com.foodrama.foodrama.model.dto.IngredientDto;
@@ -22,11 +24,17 @@ public class IngredientService {
 	 * @return list of ingredients sorted by name ascending
 	 */
 	public List<IngredientDto> getAll() {
-		return ingredientRepository.findAll()
+		List<IngredientDto> ingredients = ingredientRepository.findAll()
 				.stream()
 				.sorted()
 				.map(IngredientDto::new)
 				.collect(Collectors.toList());
+		
+		if(ingredients.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ingredients found");
+		}
+		
+		return ingredients;
 	}
 	
 	/**
@@ -36,9 +44,17 @@ public class IngredientService {
 	 * @return the ingredient with the matching id requested
 	 */
 	public IngredientDto getById(Long id) {
-		return ingredientRepository.findById(id)
+		
+		IngredientDto ingredient = ingredientRepository.findById(id)
 				.map(IngredientDto::new)
 				.orElse(null);
+		
+		if(ingredient == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ingredient found");
+		}
+		
+		return ingredient;
+		
 	}
 	
 	/**
@@ -48,7 +64,11 @@ public class IngredientService {
      * @return the saved ingredient as a DTO
      */
     public IngredientDto save(IngredientDto ingredientDto) {
-        return new IngredientDto(ingredientRepository.save(ingredientDto.toEntity()));
+    	try {
+    		return new IngredientDto(ingredientRepository.save(ingredientDto.toEntity()));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error saving ingredient");
+		}
     }
     
     /**
@@ -59,10 +79,14 @@ public class IngredientService {
      * @return the saved ingredient as a DTO
      */
     public IngredientDto edit(Long id, IngredientDto ingredientDto) {
-    	Ingredient ingredient = ingredientDto.toEntity();
-    	ingredient.setId(id);
-    	
-        return new IngredientDto(ingredientRepository.save(ingredient));
+    	try {
+	    	Ingredient ingredient = ingredientDto.toEntity();
+	    	ingredient.setId(id);
+	    	
+	        return new IngredientDto(ingredientRepository.save(ingredient));
+    	} catch (Exception e) {
+    		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error editing ingredient");
+    	}
     }
 
     /**
@@ -71,7 +95,10 @@ public class IngredientService {
      * @param id the ID of the ingredient to delete
      */
     public void delete(Long id) {
-    	//This one is throwing a 500 internal error, because it can't find the relationship table
-        ingredientRepository.deleteById(id);
+    	try {
+    		ingredientRepository.deleteById(id);
+    	} catch (Exception e) {
+    		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error deleting ingredient");
+    	}
     }
 }

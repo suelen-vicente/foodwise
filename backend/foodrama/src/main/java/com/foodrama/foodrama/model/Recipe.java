@@ -2,6 +2,7 @@ package com.foodrama.foodrama.model;
 
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
@@ -28,7 +30,9 @@ public class Recipe {
 	
 	private Long portion;
 	
-	@ManyToMany
+	@OneToMany(
+        cascade = CascadeType.ALL,
+        orphanRemoval = true)
 	@JoinTable(
 	  name = "recipe_ingredient", 
 	  joinColumns = @JoinColumn(name = "ingredient_id"), 

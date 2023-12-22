@@ -1,20 +1,13 @@
 package com.foodrama.foodrama.model;
 
-import java.util.Set;
-
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
 
 @Entity
-public class Ingredient implements Comparable<Ingredient>{
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_seq")
-	@SequenceGenerator(name = "ingredient_seq", sequenceName = "ingredient_seq", allocationSize = 1)
-	private Long id;
+public class RecipeIngredient {
+	
+	@EmbeddedId
+	private RecipeIngredientId recipeIngredientId;
 
 	private String name;
 
@@ -25,21 +18,13 @@ public class Ingredient implements Comparable<Ingredient>{
 	private String quantityUnit;
 	
 	private String barCode;
-	
-//	@ManyToMany
-//    Set<Recipe> recipes;
-	
-	@Override
-    public int compareTo(Ingredient ingredient) {
-        return this.name.compareTo(ingredient.name);
-    }
 
-	public Long getId() {
-		return id;
+	public RecipeIngredientId getRecipeIngredientId() {
+		return recipeIngredientId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setRecipeIngredientId(RecipeIngredientId recipeIngredientId) {
+		this.recipeIngredientId = recipeIngredientId;
 	}
 
 	public String getName() {
@@ -81,5 +66,5 @@ public class Ingredient implements Comparable<Ingredient>{
 	public void setBarCode(String barCode) {
 		this.barCode = barCode;
 	}
-
+	
 }
