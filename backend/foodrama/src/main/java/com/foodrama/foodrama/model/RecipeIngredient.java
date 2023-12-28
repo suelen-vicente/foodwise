@@ -1,7 +1,12 @@
 package com.foodrama.foodrama.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 
 @Entity
 public class RecipeIngredient {
@@ -9,15 +14,20 @@ public class RecipeIngredient {
 	@EmbeddedId
 	private RecipeIngredientId recipeIngredientId;
 
-	private String name;
+	@MapsId("ingredientId")
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ingredient_id", referencedColumnName = "id")
+	private Ingredient ingredient;
+	
+	@MapsId("recipeId")
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "recipe_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private Recipe recipe;
 
-	private Double price;
+	private Double ingredientQuantity;
 	
-	private Double packageQuantity;
-	
+	@Column(name = "ingredient_quantity_unit")
 	private String quantityUnit;
-	
-	private String barCode;
 
 	public RecipeIngredientId getRecipeIngredientId() {
 		return recipeIngredientId;
@@ -27,28 +37,28 @@ public class RecipeIngredient {
 		this.recipeIngredientId = recipeIngredientId;
 	}
 
-	public String getName() {
-		return name;
+	public Ingredient getIngredient() {
+		return ingredient;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setIngredient(Ingredient ingredient) {
+		this.ingredient = ingredient;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Recipe getRecipe() {
+		return recipe;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
 	}
 
-	public Double getPackageQuantity() {
-		return packageQuantity;
+	public Double getIngredientQuantity() {
+		return ingredientQuantity;
 	}
 
-	public void setPackageQuantity(Double packageQuantity) {
-		this.packageQuantity = packageQuantity;
+	public void setIngredientQuantity(Double ingredientQuantity) {
+		this.ingredientQuantity = ingredientQuantity;
 	}
 
 	public String getQuantityUnit() {
@@ -57,14 +67,6 @@ public class RecipeIngredient {
 
 	public void setQuantityUnit(String quantityUnit) {
 		this.quantityUnit = quantityUnit;
-	}
-
-	public String getBarCode() {
-		return barCode;
-	}
-
-	public void setBarCode(String barCode) {
-		this.barCode = barCode;
 	}
 	
 }

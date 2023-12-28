@@ -12,6 +12,8 @@ import com.foodrama.foodrama.model.Ingredient;
 import com.foodrama.foodrama.model.dto.IngredientDto;
 import com.foodrama.foodrama.repository.IngredientRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class IngredientService {
 
@@ -23,6 +25,7 @@ public class IngredientService {
 	 *
 	 * @return list of ingredients sorted by name ascending
 	 */
+	@Transactional
 	public List<IngredientDto> getAll() {
 		List<IngredientDto> ingredients = ingredientRepository.findAll()
 				.stream()
@@ -43,6 +46,7 @@ public class IngredientService {
 	 * @param id id of the ingredient
 	 * @return the ingredient with the matching id requested
 	 */
+	@Transactional
 	public IngredientDto getById(Long id) {
 		
 		IngredientDto ingredient = ingredientRepository.findById(id)
@@ -63,11 +67,12 @@ public class IngredientService {
      * @param ingredientDto the DTO containing information about the ingredient
      * @return the saved ingredient as a DTO
      */
+	@Transactional
     public IngredientDto save(IngredientDto ingredientDto) {
     	try {
     		return new IngredientDto(ingredientRepository.save(ingredientDto.toEntity()));
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error saving ingredient");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error saving ingredient: " + e.getMessage());
 		}
     }
     
@@ -78,6 +83,7 @@ public class IngredientService {
      * @param ingredientDto the DTO containing information about the ingredient
      * @return the saved ingredient as a DTO
      */
+	@Transactional
     public IngredientDto edit(Long id, IngredientDto ingredientDto) {
     	try {
 	    	Ingredient ingredient = ingredientDto.toEntity();
@@ -85,7 +91,7 @@ public class IngredientService {
 	    	
 	        return new IngredientDto(ingredientRepository.save(ingredient));
     	} catch (Exception e) {
-    		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error editing ingredient");
+    		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error editing ingredient: " + e.getMessage());
     	}
     }
 
@@ -94,11 +100,12 @@ public class IngredientService {
      *
      * @param id the ID of the ingredient to delete
      */
+	@Transactional
     public void delete(Long id) {
     	try {
     		ingredientRepository.deleteById(id);
     	} catch (Exception e) {
-    		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error deleting ingredient");
+    		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error deleting ingredient: " + e.getMessage());
     	}
     }
 }

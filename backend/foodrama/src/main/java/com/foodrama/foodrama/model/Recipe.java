@@ -5,6 +5,7 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,14 +31,8 @@ public class Recipe {
 	
 	private Long portion;
 	
-	@OneToMany(
-        cascade = CascadeType.ALL,
-        orphanRemoval = true)
-	@JoinTable(
-	  name = "recipe_ingredient", 
-	  joinColumns = @JoinColumn(name = "ingredient_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "recipe_id"))
-    Set<Ingredient> ingredients;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "recipe", cascade = CascadeType.ALL)
+    Set<RecipeIngredient> ingredients;
 
 	public Long getId() {
 		return id;
@@ -79,11 +74,11 @@ public class Recipe {
 		this.portion = portion;
 	}
 	
-	public Set<Ingredient> getIngredients(){
+	public Set<RecipeIngredient> getIngredients(){
 		return ingredients;
 	}
 	
-	public void setIngredients(Set<Ingredient> ingredients){
+	public void setIngredients(Set<RecipeIngredient> ingredients){
 		this.ingredients = ingredients;
 	}
 	

@@ -26,9 +26,6 @@ public class Ingredient implements Comparable<Ingredient>{
 	
 	private String barCode;
 	
-//	@ManyToMany
-//    Set<Recipe> recipes;
-	
 	@Override
     public int compareTo(Ingredient ingredient) {
         return this.name.compareTo(ingredient.name);
