@@ -2,7 +2,6 @@ package com.foodrama.foodrama.service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ import com.foodrama.foodrama.model.Ingredient;
 import com.foodrama.foodrama.model.Recipe;
 import com.foodrama.foodrama.model.RecipeIngredient;
 import com.foodrama.foodrama.model.RecipeIngredientId;
-import com.foodrama.foodrama.model.dto.IngredientDto;
 import com.foodrama.foodrama.model.dto.RecipeDto;
 import com.foodrama.foodrama.model.dto.RecipeIngredientDto;
 import com.foodrama.foodrama.repository.IngredientRepository;
@@ -37,12 +35,17 @@ public class RecipeService {
 	 *
 	 * @return list of recipes sorted by name ascending
 	 */
+	@Transactional
 	public List<RecipeDto> getAll() {
+		try {
 		return recipeRepository.findAll()
 				.stream()
 				.sorted()
 				.map(RecipeDto::new)
 				.collect(Collectors.toList());
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error retrieving recipe: " + e.getMessage());
+		}
 	}
 	
 	/**
@@ -51,6 +54,7 @@ public class RecipeService {
 	 * @param id id of the ingredient
 	 * @return the ingredient with the matching id requested
 	 */
+	@Transactional
 	public RecipeDto getById(Long id) {
 		return recipeRepository.findById(id)
 				.map(RecipeDto::new)
@@ -67,11 +71,6 @@ public class RecipeService {
     public RecipeDto save(RecipeDto recipeDto) {
     	try {
     		Recipe recipe = recipeDto.toEntity();
-    		
-//    		Set<RecipeIngredient> recipeIngs = recipeDto.ingredients()
-//    				.stream()
-//    				.map(ing -> ing.toEntity())
-//    				.collect(Collectors.toSet());
     		
     		Set<RecipeIngredient> recipeIngs = new HashSet<RecipeIngredient>();
     		

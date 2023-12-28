@@ -11,6 +11,9 @@ public class RecipeIngredientId {
 	
 	@Column(name = "recipe_id")
 	private Long recipeId;
+	
+	public RecipeIngredientId() {
+    }
 
 	public RecipeIngredientId(Long ingredientId, Long recipeId) {
 		this.ingredientId = ingredientId;

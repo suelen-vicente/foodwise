@@ -1,9 +1,6 @@
 package com.foodrama.foodrama.model.dto;
 
-import java.util.stream.Collectors;
-
 import com.foodrama.foodrama.model.QuantityUnit;
-import com.foodrama.foodrama.model.Recipe;
 import com.foodrama.foodrama.model.RecipeIngredient;
 
 public record RecipeIngredientDto(IngredientDto ingredient, Double ingredientQuantity, QuantityUnit quantityUnit) {
