@@ -46,6 +46,7 @@ public class RecipeController {
 	@PutMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public RecipeDto editRecipe(@PathVariable Long id, @RequestBody RecipeDto Recipe) {
+//		recipeService.deleteAllRecipeIngredients(id);
 		return recipeService.edit(id, Recipe);
 	}
 	

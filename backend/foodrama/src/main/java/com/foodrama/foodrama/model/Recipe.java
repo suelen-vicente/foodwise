@@ -13,7 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
-public class Recipe {
+public class Recipe implements Comparable<Recipe>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_seq")
 	@SequenceGenerator(name = "recipe_seq", sequenceName = "recipe_seq", allocationSize = 1)
@@ -28,8 +28,13 @@ public class Recipe {
 	
 	private Long portion;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "recipe", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<RecipeIngredient> ingredients;
+	
+	@Override
+    public int compareTo(Recipe recipe) {
+        return this.name.compareTo(recipe.name);
+    }
 
 	public Long getId() {
 		return id;

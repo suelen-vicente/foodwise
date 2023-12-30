@@ -25,10 +25,13 @@ public record RecipeDto(Long id, String name, Double price, String steps, Long p
 		recipe.setPrice(this.price());
 		recipe.setSteps(this.steps);
 		recipe.setPortion(this.portion);
-		recipe.setIngredients(this.ingredients()
-				.stream()
-				.map(ing -> ing.toEntity())
-				.collect(Collectors.toSet()));
+        
+        return recipe;
+	}
+	
+	public Recipe toEntity(Long id) {
+		Recipe recipe = toEntity();
+		recipe.setId(id);
         
         return recipe;
 	}

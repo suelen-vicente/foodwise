@@ -1,5 +1,6 @@
 package com.foodrama.foodrama.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -16,7 +17,7 @@ public class RecipeIngredient {
 
 	@MapsId("ingredientId")
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ingredient_id", referencedColumnName = "id")
+	@JoinColumn(name = "ingredient_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Ingredient ingredient;
 	
 	@MapsId("recipeId")

@@ -51,11 +51,7 @@ public class IngredientService {
 		
 		IngredientDto ingredient = ingredientRepository.findById(id)
 				.map(IngredientDto::new)
-				.orElse(null);
-		
-		if(ingredient == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ingredient found");
-		}
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with id: " + id));
 		
 		return ingredient;
 		

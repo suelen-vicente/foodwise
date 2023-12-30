@@ -1,6 +1,5 @@
 package com.foodrama.foodrama.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.foodrama.foodrama.model.Ingredient;
 import com.foodrama.foodrama.model.Recipe;
 import com.foodrama.foodrama.model.RecipeIngredient;
-import com.foodrama.foodrama.model.RecipeIngredientId;
 import com.foodrama.foodrama.model.dto.RecipeDto;
 import com.foodrama.foodrama.model.dto.RecipeIngredientDto;
 import com.foodrama.foodrama.repository.IngredientRepository;
@@ -72,25 +70,18 @@ public class RecipeService {
     	try {
     		Recipe recipe = recipeDto.toEntity();
     		
-    		Set<RecipeIngredient> recipeIngs = new HashSet<RecipeIngredient>();
+    		Set<RecipeIngredient> ingredients = recipeDto.ingredients().stream()
+                .map(ing -> {
+                		Ingredient ingredient = ingredientRepository.findById(ing.ingredient().id())
+                        		.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with id: " + ing.ingredient().id()));
+                		
+                		return ing.toEntity(recipe, ingredient);
+                })
+                .collect(Collectors.toSet());
     		
-    		for(RecipeIngredientDto ing: recipeDto.ingredients()) {
-    			RecipeIngredient recipeIng = ing.toEntity();
-    			Ingredient ingredient = ingredientRepository.findById(ing.ingredient().id()).orElse(null);
-    			
-    			if(ingredient == null) {
-    				throw new ResponseStatusException(HttpStatus.NOT_FOUND , "Error saving recipe. Ingredient not found"); 
-    			}
-    			
-    			recipeIng.setIngredient(ingredient);
-    			recipeIng.setRecipe(recipe);
-    			recipeIng.setRecipeIngredientId(new RecipeIngredientId(ingredient.getId(), recipe.getId()));
-    			recipeIngs.add(recipeIng);
-    		}
+    		recipe.setIngredients(ingredients);
     		
-    		recipe.setIngredients(recipeIngs);
-    				
-	    	Recipe savedRecipe = recipeRepository.save(recipe);
+    		Recipe savedRecipe = recipeRepository.save(recipe);
 	        return new RecipeDto(savedRecipe);
     	} catch (Exception e) {
     		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error saving recipe: " + e.getMessage());
@@ -104,20 +95,40 @@ public class RecipeService {
      * @param recipeDto the DTO containing information about the recipe
      * @return the saved recipe as a DTO
      */
+	@Transactional
     public RecipeDto edit(Long id, RecipeDto recipeDto) {
-//    	List<Long> ingredientIds = recipeDto.ingredients()
-//    			.stream()
-//                .map(IngredientDto::id)
-//                .collect(Collectors.toList());
-//    	
-//    	if (!ingredientRepository.existsAllByIdIn(ingredientIds)) { 
-//			throw new IllegalArgumentException("Ingredient not found");
-//		}
-//    	
-//    	Recipe recipe = recipeDto.toEntity();
-//    	recipe.setId(id);
-    	
-    	return new RecipeDto(recipeRepository.save(recipeDto.toEntity()));
+    	try {
+    		Recipe existingRecipe = recipeRepository.findById(id)
+    			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found with id: " + id));
+    		
+    		if (recipeDto.name() != null) {
+                existingRecipe.setName(recipeDto.name());
+            }
+            if (recipeDto.price() != null) {
+                existingRecipe.setPrice(recipeDto.price());
+            }
+            if (recipeDto.steps() != null) {
+                existingRecipe.setSteps(recipeDto.steps());
+            }
+            if (recipeDto.portion() != null) {
+                existingRecipe.setPortion(recipeDto.portion());
+            }
+            
+            existingRecipe.getIngredients().clear();
+            
+            for(RecipeIngredientDto ing : recipeDto.ingredients()) {
+            	Ingredient ingredient = ingredientRepository.findById(ing.ingredient().id())
+                		.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with id: " + ing.ingredient().id()));
+        		
+        		RecipeIngredient recipeIngredient = ing.toEntity(existingRecipe, ingredient);
+        		existingRecipe.getIngredients().add(recipeIngredient);
+            }
+    		
+    		Recipe savedRecipe = recipeRepository.save(existingRecipe);
+	        return new RecipeDto(savedRecipe);
+    	} catch (Exception e) {
+    		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error saving recipe: " + e.getMessage());
+		}
     }
 
     /**
