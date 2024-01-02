@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,21 +38,15 @@ public class ShoppingListController {
 		return shoppingListService.addIngredient(ingredient);
 	}
 	
-	@PutMapping(value = "/{userId}/ingredient/{ingredientId}")
+	@PutMapping(value = "/{userId}/{ingredientId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ShoppingListDto editIngredient(@PathVariable Long userId, @PathVariable Long ingredientId, @RequestBody ShoppingListDto ingredient) {
 		return shoppingListService.editIngredient(userId, ingredientId, ingredient);
 	}
 	
-	@DeleteMapping(value = "/ingredient/{id}")
+	@DeleteMapping(value = "/{userId}")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteIngredient(@PathVariable Long ingredientId) {
-		shoppingListService.deleteIngredient(ingredientId);
-	}
-	
-	@DeleteMapping(value = "/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public void deleteAll(@PathVariable Long userId) {
-		shoppingListService.delete(userId);
+	public void deleteIngredient(@PathVariable Long userId, @RequestParam(required = false) Long ingredientId) {
+		shoppingListService.deleteIngredient(userId, ingredientId);
 	}
 }

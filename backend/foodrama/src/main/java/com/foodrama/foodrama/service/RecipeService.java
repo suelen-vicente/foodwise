@@ -136,6 +136,7 @@ public class RecipeService {
      *
      * @param id the ID of the ingredient to delete
      */
+	@Transactional
     public void deleteById(Long id) {
     	recipeRepository.deleteById(id);
     }

@@ -48,13 +48,11 @@ public class IngredientService {
 	 */
 	@Transactional
 	public IngredientDto getById(Long id) {
-		
 		IngredientDto ingredient = ingredientRepository.findById(id)
 				.map(IngredientDto::new)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with id: " + id));
 		
 		return ingredient;
-		
 	}
 	
 	/**
@@ -81,9 +79,15 @@ public class IngredientService {
      */
 	@Transactional
     public IngredientDto edit(Long id, IngredientDto ingredientDto) {
-    	try {
-	    	Ingredient ingredient = ingredientDto.toEntity();
-	    	ingredient.setId(id);
+		Ingredient ingredient = ingredientRepository.findById(id)
+        		.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with id: " + id));
+    	
+		try {
+//	    	ingredient.setBarCode(ingredientDto.barCode());
+			ingredient.setName(ingredientDto.name());
+			ingredient.setPackageQuantity(ingredientDto.packageQuantity());
+			ingredient.setPrice(ingredientDto.price());
+			ingredient.setQuantityUnit(ingredientDto.quantityUnit().getLabel());
 	    	
 	        return new IngredientDto(ingredientRepository.save(ingredient));
     	} catch (Exception e) {
@@ -98,7 +102,10 @@ public class IngredientService {
      */
 	@Transactional
     public void delete(Long id) {
-    	try {
+		ingredientRepository.findById(id)
+        		.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with id: " + id));
+    	
+		try {
     		ingredientRepository.deleteById(id);
     	} catch (Exception e) {
     		throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error deleting ingredient: " + e.getMessage());

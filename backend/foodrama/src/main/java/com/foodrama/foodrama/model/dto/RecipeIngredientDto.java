@@ -14,19 +14,6 @@ public record RecipeIngredientDto(IngredientDto ingredient, Double ingredientQua
 				QuantityUnit.fromLabel(recipeIng.getQuantityUnit()));
 	}
 	
-	public RecipeIngredient toEntity(Recipe recipe) {
-		Ingredient ingredient = this.ingredient.toEntity();
-				
-		RecipeIngredient recipeIng = new RecipeIngredient();
-		recipeIng.setRecipeIngredientId(new RecipeIngredientId(ingredient.getId(), recipe.getId()));
-		recipeIng.setIngredient(ingredient);
-		recipeIng.setRecipe(recipe);
-		recipeIng.setIngredientQuantity(this.ingredientQuantity());
-		recipeIng.setQuantityUnit(this.quantityUnit().getLabel());
-		
-        return recipeIng;
-	}
-	
 	public RecipeIngredient toEntity(Recipe recipe, Ingredient ingredient) {
 		RecipeIngredient recipeIng = new RecipeIngredient();
 		recipeIng.setRecipeIngredientId(new RecipeIngredientId(ingredient.getId(), recipe.getId()));

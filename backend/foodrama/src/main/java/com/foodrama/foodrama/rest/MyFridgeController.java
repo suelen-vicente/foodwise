@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.foodrama.foodrama.model.dto.MyFridgeDto;
-import com.foodrama.foodrama.model.dto.ShoppingListDto;
 import com.foodrama.foodrama.service.MyFridgeService;
 
 @Controller
@@ -39,21 +39,15 @@ public class MyFridgeController {
 		return myFridgeService.addIngredient(ingredient);
 	}
 	
-	@PutMapping(value = "/{userId}/ingredient/{ingredientId}")
+	@PutMapping(value = "/{userId}/{ingredientId}")
 	@ResponseStatus(HttpStatus.OK)
 	public MyFridgeDto editIngredient(@PathVariable Long userId, @PathVariable Long ingredientId, @RequestBody MyFridgeDto ingredient) {
 		return myFridgeService.editIngredient(userId, ingredientId, ingredient);
 	}
 	
-	@DeleteMapping(value = "/ingredient/{id}")
+	@DeleteMapping(value = "/{userId}")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteIngredient(@PathVariable Long ingredientId) {
-		myFridgeService.deleteIngredient(ingredientId);
-	}
-	
-	@DeleteMapping(value = "/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public void deleteAll(@PathVariable Long userId) {
-		myFridgeService.delete(userId);
+	public void deleteIngredient(@PathVariable Long userId, @RequestParam(required = false) Long ingredientId) {
+		myFridgeService.deleteIngredient(userId, ingredientId);
 	}
 }

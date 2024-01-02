@@ -1,33 +1,46 @@
 package com.foodrama.foodrama.model;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 
 @Entity
 public class ShoppingList {
-//	@OneToOne(optional = false)
-//	@JoinColumn(name = "user_id", nullable = false)
-//	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name = "ingredient_id", nullable = false)
+	@EmbeddedId
+	private ShoppingListId shoppingListId;
+	
+	@MapsId("userId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+	private AppUser user;
+	
+	@MapsId("ingredientId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ingredient_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
 	private Ingredient ingredient;
 	
 	private Double quantity;
 	
 	private String quantityUnit;
-	
-	@Id
-	private Long userId;
 
-	public Long getUserId() {
-		return userId;
+	public ShoppingListId getShoppingListId() {
+		return shoppingListId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setShoppingListId(ShoppingListId shoppingListId) {
+		this.shoppingListId = shoppingListId;
+	}
+
+	public AppUser getUser() {
+		return user;
+	}
+
+	public void setUser(AppUser user) {
+		this.user = user;
 	}
 
 	public Ingredient getIngredient() {
