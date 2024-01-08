@@ -1,5 +1,7 @@
 package com.foodrama.foodrama.rest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +31,10 @@ public class IngredientController {
 	
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
-	public List<IngredientDto> getAllIngredients() {
+	public List<IngredientDto> getAllIngredients(@RequestParam(required = false) String barCode) {
+		if(barCode != null) {
+			return new ArrayList<>(Arrays.asList(ingredientService.getByBarCode(barCode)));
+		}
 		return ingredientService.getAll();
 	}
 	

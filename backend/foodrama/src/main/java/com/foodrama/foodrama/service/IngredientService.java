@@ -1,5 +1,6 @@
 package com.foodrama.foodrama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,11 +49,22 @@ public class IngredientService {
 	 */
 	@Transactional
 	public IngredientDto getById(Long id) {
-		IngredientDto ingredient = ingredientRepository.findById(id)
+		return ingredientRepository.findById(id)
 				.map(IngredientDto::new)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with id: " + id));
-		
-		return ingredient;
+	}
+	
+	/**
+	 * Returns the ingredient with passed barCode.
+	 *
+	 * @param id id of the ingredient
+	 * @return the ingredient with the matching id requested
+	 */
+	@Transactional
+	public IngredientDto getByBarCode(String barCode) {
+		return ingredientRepository.findByBarCode(barCode)
+				.map(IngredientDto::new)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found with barCode: " + barCode));
 	}
 	
 	/**

@@ -120,21 +120,4 @@ public class MyFridgeService {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error deleting ingredient: " + e.getMessage());
 		}
     }
-    
-    /**
-     * Delete the entire fridge of a user.
-     *
-     * @param id the ID of the user to delete
-     */
-//	@Transactional
-//    public void delete(Long userId) {
-//		userRepository.findById(userId)
-//		.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + userId));
-//		
-//		try {
-//			
-//		} catch (Exception e) {
-//			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR , "Error deleting ingredient: " + e.getMessage());
-//		}
-//    }
 }
